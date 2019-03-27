@@ -1,0 +1,17 @@
+#parse( "header_status.vm" )
+
+    #devicestatus($bh ' BH' 0)
+    #devicestatus($polarh7 ' PL' 0)
+    #if ($bh && $bh.status_tcpstatus)
+        #set($ddev = $bh)
+    #else
+        #set($ddev = $polarh7)
+    #end
+    #tcpstatus($ddev '')
+    #batterystatus($polarh7 ' PL')
+    #programstatus($bh ' BH')
+    #sessionstatus($bh ' BH')
+    #sessionstatus($polarh7 ' PL')
+    #userstatus($bh '' 0 )
+    
+#include( "footer_status.vm" )

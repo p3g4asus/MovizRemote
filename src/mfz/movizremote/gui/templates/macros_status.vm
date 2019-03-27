@@ -1,0 +1,162 @@
+#macro( devicestatus $D $str2 $detail )
+	#if (!$D || !$D.status_laststatus || !$D.status_ses_device_description)
+		#set($device = '')
+		#set($istat = $DeviceStatus.OFFLINE.ordinal())
+	#else
+    	#set($device = $D.status_ses_device_description.getString())
+    	#set($istat = $D.status_laststatus.getInt())
+    #end
+    #if($device.isEmpty())
+        #set($ddevice = "-")
+        #set($ddevice_class = '"error"')
+    #else
+        #set($ddevice = $String.format("%s (%s [%s] -> %s)",$D.status_ses_device_alias.toString(),$D.status_ses_device_name.toString(),$D.status_ses_device_address.toString(),$device))
+        #set($ddevice_class = '"success"')
+    #end
+    #if($istat==$DeviceStatus.statuses.length || $istat==$DeviceStatus.OFFLINE.ordinal())
+        #set($cstatus_class = '"error"')
+    #elseif($istat!=$DeviceStatus.RUNNING.ordinal())
+        #set($cstatus_class = '"warning"')
+    #else
+        #set($cstatus_class = '"success"')
+    #end
+    #if ($detail!=0)
+        <tr><td class="info">Device$str2:</td><td class=$ddevice_class>$ddevice</td></tr>
+        <tr><td class="info">Stato$str2:</td><td class=$cstatus_class>$D.status_laststatus ($D.status_lastaction)</td></tr>
+    #else
+        <tr><td class="info">Stato$str2:</td><td class="info"><span class=$cstatus_class>[$D.status_laststatus ($D.status_lastaction)]</span>&nbsp;<span class=$ddevice_class>$ddevice</span></td></tr>
+    #end
+#end
+
+#macro( sessionstatus $D $str2 )
+	#if (!$D || !$D.status_updaten)
+		#set($un = 0)
+	#else
+    	#set($un = $D.status_updaten.getInt())
+    #end
+    #if($un==0)
+        #set($sessionfilename = "-")
+        #set($sessionfilesize = "-")
+        #set($sessionfile_class = '"error"')
+    #else
+        #set($sessionfilename = $D.status_ses_datestart.toString($datef))
+        #set($sessionfilesize = $D.status_updaten.toString())
+        #if(!$un || $un<=1)
+            #set($sessionfile_class = '"error"')
+        #else
+            #set($sessionfile_class = '"success"')
+        #end
+    #end  
+    <tr><td class="info">Sessione$str2:</td><td class=$sessionfile_class>$sessionfilename ($sessionfilesize)</td></tr>
+#end
+
+#macro( batterystatus $D $str2 )
+    #if (!$D || !$D.status_battery || $D.status_battery.getLong()<0)
+        #set($batt = "N/A")
+        #set($battstatus_class = '"error"')
+    #else
+        #set($ibat = $D.status_battery.getInt())
+        #set($batt = $String.format("%s %%",$D.status_battery.toString()))
+        
+        #if($ibat<7)
+            #set($battstatus_class = '"error"')
+        #elseif ($ibat<20)
+            #set($battstatus_class = '"warning"')
+        #else
+            #set($battstatus_class = '"success"')
+        #end
+    #end
+    <tr><td class="info">Batteria$str2:</td><td class=$battstatus_class>$batt</td></tr>
+#end
+
+#macro( batterystatus2 $D $str2 )
+    #if (!$D || !$D.status_batterylev || $D.status_batterylev.getLong()<0)
+        #set($batt = "N/A")
+        #set($battstatus_class = '"error"')
+    #else
+        #set($ibat = $D.status_batterylev.getInt())
+        #set($batt = $D.status_batterylev.toString())
+        
+        #if($ibat==0 || $ibat==3)
+            #set($battstatus_class = '"error"')
+        #elseif ($ibat==1)
+            #set($battstatus_class = '"warning"')
+        #else
+            #set($battstatus_class = '"success"')
+        #end
+    #end
+    <tr><td class="info">Batteria$str2:</td><td class=$battstatus_class>$batt</td></tr>
+#end
+
+#macro( programstatus $D $str2 )
+	#if ($putlinks)
+		#set($link1 = '[<a href="program">cambia</a>]')
+	#else
+		#set($link1 = '')
+	#end
+    #if (!$D || !$D.status_program || !$D.status_program.getString())
+        #set($prg = "N/A")
+        #set($programstatus_class = '"error"')
+    #elseif($D.status_program.endsWith("N/A"))
+        #set($prg = $D.status_program.toString())
+        #set($programstatus_class = '"error"')
+    #else
+        #set($prg = $D.status_program.toString())
+        #set($programstatus_class = '"success"')
+    #end
+    <tr><td class="info">Programma$str2:</td><td class="info"><span class=$programstatus_class>$prg</span> $link1</td></tr>
+#end
+
+#macro( tcpstatus $D $str2 )
+	#if (!$D || !$D.status_tcpstatus)
+		#set($tcps = $TCPStatus.ERROR.ordinal())
+	#else
+    	#set($tcps = $D.status_tcpstatus.getInt())
+    #end
+    #if($tcps==$TCPStatus.IDLE.ordinal())
+        #set($tcpstatus_class = '"error"')
+    #elseif ($tcps==$TCPStatus.ERROR.ordinal())
+        #set($tcpstatus_class = '"error"')
+    #elseif ($tcps==$TCPStatus.CONNECTED.ordinal())  
+        #set($tcpstatus_class = '"success"')
+    #elseif ($tcps==$TCPStatus.BOUNDED.ordinal())  
+        #set($tcpstatus_class = '"warning"')
+    #elseif ($tcps==$TCPStatus.BOUNDING.ordinal())  
+        #set($tcpstatus_class = '"warning"')
+    #else
+        #set($tcpstatus_class = '"error"')
+    #end
+    <tr><td class="info">TCP$str2:</td><td class=$tcpstatus_class>$D.status_tcpstatus ($D.status_tcpaddress)</td></tr>
+#end
+
+#macro( userstatus $D $str2 $detail )
+	#if ($putlinks)
+		#set($link2 = '[<a href="user">cambia</a>]')
+	#else
+		#set($link2 = '')
+	#end
+    #if(!$D || $D.status_ses_user_name.getString().isEmpty())
+        #set($uname = "-")
+        #set($uage = "-")
+        #set($uheight = "-")
+        #set($uweight = "-")
+        #set($usex = "-")
+        #set($uuser_class = '"error"')
+    #else
+        #set($uname = $D.status_ses_user_name.toString())
+        #set($uage = $D.status_ses_user_age.toString())
+        #set($uheight = $D.status_ses_user_height.toString("%.1f"))
+        #set($uweight = $D.status_ses_user_weight.toString("%.1f"))
+        #if($D.status_ses_user_ismale.getInt()==1)
+            #set($usex = "M")
+        #else
+            #set($usex = "F")
+        #end
+        #set($uuser_class = '"success"')
+    #end  
+    <tr><td class="info">Nome$str2: </td><td class="info"><span class=$uuser_class>$uname</span> (<span class=$uuser_class>$usex</span>) $link2</td></tr>
+    #if ($detail!=0)
+        <tr><td class="info">Et&agrave;$str2: </td class="info"><td class=$uuser_class>$uage</td></tr>
+        <tr><td class="info">Altezza &#47; Peso$str2 </td><td class=$uuser_class>$uheight (cm) &#47; $uweight (kg)</td></tr>
+    #end
+#end

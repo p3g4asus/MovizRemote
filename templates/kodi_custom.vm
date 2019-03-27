@@ -1,0 +1,19 @@
+#if (!$bh || !$bh.upd_timer)
+    #set($t1 = '-')
+#else
+    #set($t1 = $bh.upd_timer.toString())
+#end
+#if (!$polarh7 || !$polarh7.upd_timer)
+    #set($t2 = '-')
+#else
+    #set($t2 = $polarh7.upd_timer.toString())
+#end
+T:$t1($t2)
+#distance($bh '')
+#speed($bh '')
+#pulse($polarh7 'PL')
+#generic($bh.upd_calorie 'C')
+##generic($polarh7.upd_nbeatsr 'HRT')
+##rpm($bh '')
+##watt($bh '')
+##generic($bh.upd_incline 'I')

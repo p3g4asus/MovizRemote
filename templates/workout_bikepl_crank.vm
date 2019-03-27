@@ -1,0 +1,27 @@
+#parse( "header_workout.vm" )
+#if (!$wbk)
+    #set($t1 = '-')
+    #set($t1c = '"error"')
+#else
+    #bluescmix($wbk $MIN $MOUT)
+    #set($t1 = $wbk.upd_timer.toString())
+    #set($t1c = '"info2"')
+#end
+#if (!$polarh7)
+    #set($t2 = '-')
+    #set($t2c = '"error"')
+#else
+    #set($t2 = $polarh7.upd_timer.toString())
+    #set($t2c = '"info"')
+#end
+<tr><td width="25%" class="info">T WBK (ZP):</td><td width="75%"><span class=$t1c>$t1</span>&nbsp;<span class=$t2c>($t2)</span></td></tr>
+#distancecrank($wbk '')
+#generic($wbk.upd_crankcalorie 'Cal')
+#generic($polarh7.upd_nbeatsr 'NBat')
+#pulse($polarh7 'PL')
+#speedcrank($wbk '')
+#rpm($wbk '')
+#generic($wbk.upd_wheeln 'NWhl')
+#generic($wbk.upd_crankn 'NCrk')
+#generic($wbk.upd_gear 'Gear')
+#include( "footer_workout.vm" )

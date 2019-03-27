@@ -1,0 +1,13 @@
+#if ($first__)
+#parse("header_status")
+#end
+
+<tr><td class="title" colspan="2">$T.getAlias()</td></tr>
+#devicestatus($D '' 1)
+#tcpstatus($D '')
+#batterystatus($D '')
+#sessionstatus($D '')
+
+#if ($last__)
+#parse("footer_status")
+#end

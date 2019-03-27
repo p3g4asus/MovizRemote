@@ -1,0 +1,166 @@
+#macro(speed0 $v $vmn $str2)
+	#if (!$v || !$vmn)
+		#set($speed_class = '"font-family: Verdana; font-size: 30pt; color: red; font-weight: bold;"')
+		<span style=$speed_class>V:-(-)</span>
+	#else
+		#if($v.c($vmn)<0)
+		    #set($speed_class = '"font-family: Verdana; font-size: 30pt; color: #DF7401;"')
+		#else
+		    #set($speed_class = '"font-family: Verdana; font-size: 30pt; color: green;"')
+		#end
+		<span style="font-family: Verdana; font-size: 30pt; color: black;">V:</span><span style=$speed_class>$v.toString("%.1f")</span><span style="font-family: Verdana; font-size: 30pt; color: black;">($vmn.toString("%.2f"))</span>
+	#end
+#end
+#macro(speedwheel $D $str2)
+	#if (!$D)
+		#speed0($D $D $str2)
+	#else
+		#speed0($D.get("upd_wheelspeedkmh") $D.get("upd_wheelspeedkmhmn") $str2)
+	#end
+#end
+#macro(speedcrank $D $str2)
+	#if (!$D)
+		#speed0($D $D $str2)
+	#else
+		#speed0($D.get("upd_crankspeedkmh") $D.get("upd_crankspeedkmhmn") $str2)
+	#end
+#end
+#macro(speed $D $str2)
+	#if (!$D)
+		#speed0($D $D $str2)
+	#else
+		#speed0($D.get("upd_speed") $D.get("upd_speedmn") $str2)
+	#end
+#end
+#macro(watt $D $str2)
+	#if (!$D || !$D.upd_wattmn || !$D.upd_watt)
+		#set($watt_class = '"font-family: Verdana; font-size: 30pt; color: red; font-weight: bold;"')
+		<span style=$watt_class>W:-(-)</span>
+	#else
+		#if($D.upd_watt.c($D.upd_wattmn)<0)
+		    #set($watt_class = '"font-family: Verdana; font-size: 30pt; color: #DF7401;"')
+		#else
+		    #set($watt_class = '"font-family: Verdana; font-size: 30pt; color: green;"')
+		#end
+		<span style="font-family: Verdana; font-size: 30pt; color: black;">W:</span><span style=$watt_class>$D.upd_watt</span><span style="font-family: Verdana; font-size: 30pt; color: black;">($D.upd_wattmn.toString("%.1f"))</span>
+	#end
+#end
+#macro(rpm0 $v $vmn $str2)
+	#if (!$v || !$vmn)
+		#set($rpm_class = '"font-family: Verdana; font-size: 30pt; color: red; font-weight: bold;"')
+		<span style=$rpm_class>R:-(-)</span>
+	#else
+		#if($v.c($vmn)<0)
+		    #set($rpm_class = '"font-family: Verdana; font-size: 30pt; color: #DF7401;"')
+		#else
+		    #set($rpm_class = '"font-family: Verdana; font-size: 30pt; color: green;"')
+		#end
+		<span style="font-family: Verdana; font-size: 30pt; color: black;">R:</span><span style=$rpm_class>$v</span><span style="font-family: Verdana; font-size: 30pt; color: black;">($vmn.toString("%.1f"))</span>
+	#end
+#end
+#macro(rpm $D $str2)
+	#if (!$D)
+		#rpm0($D $D $str2)
+	#elseif ($D.get("upd_crankspeed") || $D.get("upd_crankspeedmn"))
+		#rpm0($D.get("upd_crankspeed") $D.get("upd_crankspeedmn") $str2)
+	#else
+		#rpm0($D.get("upd_rpm") $D.get("upd_rpmmn") $str2)
+	#end
+#end
+
+#macro(joule $D $str2)
+	#if (!$D || !$D.upd_joule || !$D.upd_joulemn)
+		#set($joule_class = '"font-family: Verdana; font-size: 30pt; color: red; font-weight: bold;"')
+		<span style=$joule_class>J:-(-)</span>
+	#else
+		#if($D.upd_joule.c($D.upd_joulemn)<0)
+		    #set($joule_class = '"font-family: Verdana; font-size: 30pt; color: #DF7401;"')
+		#else
+		    #set($joule_class = '"font-family: Verdana; font-size: 30pt; color: green;"')
+		#end
+		<span style="font-family: Verdana; font-size: 30pt; color: black;">J:</span><span style=$joule_class>$D.upd_joule</span><span style="font-family: Verdana; font-size: 30pt; color: black;">($D.upd_joulemn.toString("%.0f"))</span>
+	#end
+#end
+#macro(pulse $D $str2)
+	#if (!$D || !$D.upd_pulse || !$D.upd_pulsemn)
+		#set($pulse_class = '"font-family: Verdana; font-size: 30pt; color: red; font-weight: bold;"')
+		<span style=$pulse_class>H:-(-)</span>
+	#else
+		#if($D.upd_pulse.c($D.upd_pulsemn)<0)
+		    #set($pulse_class = '"font-family: Verdana; font-size: 30pt; color: #DF7401;"')
+		#else
+		    #set($pulse_class = '"font-family: Verdana; font-size: 30pt; color: green;"')
+		#end
+		<span style="font-family: Verdana; font-size: 30pt; color: black;">H:</span><span style=$pulse_class>$D.upd_pulse</span><span style="font-family: Verdana; font-size: 30pt; color: black;">($D.upd_pulsemn.toString("%.0f"))</span>
+	#end
+#end
+
+#macro(distance0 $v $str2)
+	#if (!$v)
+		<span style="font-family: Verdana; font-size: 30pt; color: red; font-weight: bold;">D:-</span>
+	#else
+		<span style="font-family: Verdana; font-size: 30pt; color: black;">D:$v</span>
+	#end
+#end
+
+#macro(distancewheel $D $str2)
+	#if (!$D)
+		#distance0($D $str2)
+	#else
+		#distance0($D.get("upd_wheeldistance") $str2)
+	#end
+#end
+#macro(distancecrank $D $str2)
+	#if (!$D)
+		#distance0($D $str2)
+	#else
+		#distance0($D.get("upd_crankdistance") $str2)
+	#end
+#end
+#macro(distance $D $str2)
+	#if (!$D)
+		#distance0($D $str2)
+	#else
+		#distance0($D.get("upd_distancer") $str2)
+	#end
+#end
+
+#macro(generic $v $str)
+	#if (!$v)
+		<span style="font-family: Verdana; font-size: 30pt; color: black;">$str:</span><span style="font-family: Verdana; font-size: 30pt; color: red; font-weight: bold;">-</span>
+	#else
+		<span style="font-family: Verdana; font-size: 30pt; color: black;">$str:$v</span>
+	#end
+#end
+
+#macro(bluescmix $D $MIN $MOUT)
+    #if ($D && $D.get("upd_crankspeed"))
+        #set($cc = 1)
+    #else
+        #set($cc = 0)
+    #end
+    #if ($MIN)
+        #foreach ($mapEntry in $MIN.entrySet())
+            #if ( !$D[$mapEntry.key] || ($mapEntry.key=="upd_timer" && $D.get("upd_timer").c($mapEntry.value)<0) )
+                #set($D[$mapEntry.key] = $mapEntry.value)
+            #end
+        #end
+    #else
+        #set($MIN = {})
+    #end
+    #set($MOUT = $MIN)
+    #if ($cc==1)
+		#set($ss = "crank")
+    #else
+        #set($ss = "wheel")
+    #end
+	#set($MOUT["upd_${ss}speed"] = $D.get("upd_${ss}speed"))
+	#set($MOUT["upd_${ss}speedmn"] = $D.get("upd_${ss}speedmn"))
+	#set($MOUT["upd_${ss}distance"] = $D.get("upd_${ss}distance"))
+	#set($MOUT["upd_${ss}calorie"] = $D.get("upd_${ss}calorie"))
+	#set($MOUT["upd_${ss}speedkmh"] = $D.get("upd_${ss}speedkmh"))
+	#set($MOUT["upd_${ss}n"] = $D.get("upd_${ss}n"))
+    #set($MOUT["upd_timer"] = $D.get("upd_timer"))
+    ##set($MOUT["upd_senstype"] = $stype)
+    ##set($MOUT["dbg"] = $WSensorType.CRANK.ordinal())
+#end

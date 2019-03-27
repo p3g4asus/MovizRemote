@@ -1,0 +1,107 @@
+#macro(speed $D $str2)
+	#if (!$D || !$D.upd_speed || !$D.upd_speedmn)
+		#set($speed_class = '"error"')
+		<span class=$speed_class>V:-(-)</span>
+	#else
+		#if($D.upd_speed.c($D.upd_speedmn)<0)
+		    #set($speed_class = '"warning"')
+		#else
+		    #set($speed_class = '"success"')
+		#end
+		<span class="info2">V:</span><span class=$speed_class>$D.upd_speed.toString("%.1f")</span><span class="info2">($D.upd_speedmn.toString("%.2f"))</span>
+	#end
+#end
+#macro(watt $D $str2)
+	#if (!$D || !$D.upd_wattmn || !$D.upd_watt)
+		#set($watt_class = '"error"')
+		<span class=$watt_class>W:-(-)</span>
+	#else
+		#if($D.upd_watt.c($D.upd_wattmn)<0)
+		    #set($watt_class = '"warning"')
+		#else
+		    #set($watt_class = '"success"')
+		#end
+		<span class="info2">W:</span><span class=$watt_class>$D.upd_watt</span><span class="info2">($D.upd_wattmn.toString("%.1f"))</span>
+	#end
+#end
+#macro(rpm $D $str2)
+	#if (!$D || !$D.upd_rpm || !$D.upd_rpmmn)
+		#set($rpm_class = '"error"')
+		<span class=$rpm_class>R:-(-)</span>
+	#else
+		#if($D.upd_rpm.c($D.upd_rpmmn)<0)
+		    #set($rpm_class = '"warning"')
+		#else
+		    #set($rpm_class = '"success"')
+		#end
+		<span class="info2">R:</span><span class=$rpm_class>$D.upd_rpm</span><span class="info2">($D.upd_rpmmn.toString("%.1f"))</span>
+	#end
+#end
+#macro(joule $D $str2)
+	#if (!$D || !$D.upd_joule || !$D.upd_joulemn)
+		#set($joule_class = '"error"')
+		<span class=$joule_class>J:-(-)</span>
+	#else
+		#if($D.upd_joule.c($D.upd_joulemn)<0)
+		    #set($joule_class = '"warning"')
+		#else
+		    #set($joule_class = '"success"')
+		#end
+		<span class="info2">J:</span><span class=$joule_class>$D.upd_joule</span><span class="info2">($D.upd_joulemn.toString("%.0f"))</span>
+	#end
+#end
+#macro(pulse $D $str2)
+	#if (!$D || !$D.upd_pulse || !$D.upd_pulsemn)
+		#set($pulse_class = '"error"')
+		<span class=$pulse_class>H:-(-)</span>
+	#else
+		#if($D.upd_pulse.c($D.upd_pulsemn)<0)
+		    #set($pulse_class = '"warning"')
+		#else
+		    #set($pulse_class = '"success"')
+		#end
+		<span class="info2">H:</span><span class=$pulse_class>$D.upd_pulse</span><span class="info2">($D.upd_pulsemn.toString("%.0f"))</span>
+	#end
+#end
+
+#macro(distance $D $str2)
+	#if (!$D || !$D.upd_distancer)
+		<span class="error">D:-</span>
+	#else
+		<span class="info2">D:$D.upd_distancer</span>
+	#end
+#end
+
+#macro(generic $v $str)
+	#if (!$v)
+		<span class="info2">$str:</span><span class="error">-</span>
+	#else
+		<span class="info2">$str:$v</span>
+	#end
+#end
+
+#macro(bluescmix $D $MIN $MOUT)
+    #if ($MIN)
+        #foreach ($mapEntry in $MIN.entrySet())
+            #if ( !$D[$mapEntry.key] || ($mapEntry.key=="upd_timer" && $D.upd_timer.c($mapEntry.value)<0) )
+                #set($D[$mapEntry.key] = $mapEntry.value)
+            #end
+        #end
+    #else
+        #set($MIN = {})
+    #end
+    #set($MOUT = $MIN)
+    #if ($D.upd_senstype.getInt()==$WSensorType.CRANK.ordinal())
+        #set($MOUT["upd_rpm"] = $D.upd_rpm)
+        #set($MOUT["upd_rpmmn"] = $D.upd_rpmmn)
+        #set($MOUT["upd_crankn"] = $D.upd_crankn)
+        
+    #else
+        #set($MOUT["upd_speed"] = $D.upd_speed)
+        #set($MOUT["upd_speedmn"] = $D.upd_speedmn)
+        #set($MOUT["upd_wheeln"] = $D.upd_wheeln)
+    #end
+    #set($MOUT["upd_timer"] = $D.upd_timer)
+    ##set($MOUT["upd_senstype"] = $stype)
+    ##set($MOUT["dbg"] = $WSensorType.CRANK.ordinal())
+#end

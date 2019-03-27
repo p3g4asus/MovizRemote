@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="src" path="src"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry kind="lib" path="D:/Dati/GoogleDrive/java/jars/velocity-1.7-dep.jar" sourcepath="D:/Dati/GoogleDrive/java/jars/velocity-1.7-src.zip"/>
+	<classpathentry kind="lib" path="D:/Dati/GoogleDrive/java/jars/jcommon-1.0.23.jar" sourcepath="D:/Dati/GoogleDrive/java/jars/jcommon-1.0.23-src.zip"/>
+	<classpathentry kind="lib" path="D:/Dati/GoogleDrive/java/jars/jfreechart-1.0.19.jar" sourcepath="D:/Dati/GoogleDrive/java/jars/jfreechart-1.0.19-src.zip"/>
+	<classpathentry kind="lib" path="D:/Dati/GoogleDrive/java/jars/velocity-tools-2.0.jar" sourcepath="D:/Dati/GoogleDrive/java/jars/velocity-tools-2.0-src.zip"/>
+	<classpathentry kind="lib" path="D:/Dati/GoogleDrive/java/jars/JSplitButton_1.2.jar" sourcepath="D:/Dati/GoogleDrive/java/jars/JSplitButton_1.2-src.zip"/>
+	<classpathentry kind="lib" path="D:/Dati/GoogleDrive/java/jars/movizcomunication.jar"/>
+	<classpathentry kind="output" path="bin"/>
+</classpath>

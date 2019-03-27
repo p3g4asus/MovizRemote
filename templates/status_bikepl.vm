@@ -1,0 +1,18 @@
+#parse( "header_status.vm" )
+
+    #devicestatus($wbk ' WBK' 0)
+    #devicestatus($polarh7 ' PL' 0)
+    #if ($wbk && $wbk.status_tcpstatus)
+        #set($ddev = $wbk)
+    #else
+        #set($ddev = $polarh7)
+    #end
+    #tcpstatus($ddev '')
+    #batterystatus($polarh7 ' PL')
+    #batterystatus2($wbk ' WBK')
+    #sessionstatus($wbk ' WBK')
+    #sessionstatus($polarh7 ' PL')
+    #generic($wbk.status_currgearfactor 'GearF')
+    #userstatus($wbk '' 0 )
+    
+#include( "footer_status.vm" )

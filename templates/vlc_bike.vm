@@ -1,0 +1,16 @@
+#if (!$wbk || !$wbk.upd_timer)
+    #set($t1 = '-')
+#else
+    #bluescmix($wbk $MIN $MOUT)
+    #set($t1 = $wbk.upd_timer.toString())
+#end
+#if (!$polarh7 || !$polarh7.upd_timer)
+    #set($t2 = '-')
+#else
+    #set($t2 = $polarh7.upd_timer.toString())
+#end
+T:$t1($t2)
+#distancewheel($wbk '')
+#speedwheel($wbk '')
+#pulse($polarh7 'PL')
+#generic($wbk.upd_wheelcalorie 'C')

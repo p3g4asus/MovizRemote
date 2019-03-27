@@ -1,0 +1,25 @@
+#if (!$wbk || !$wbk.upd_timer)
+    #set($t1 = '-')
+    #set($t1c = '"font-family: Verdana; font-size: 30pt; color: red; font-weight: bold;"')
+#else
+    #bluescmix($wbk $MIN $MOUT)
+    #set($t1 = $wbk.upd_timer.toString())
+    #set($t1c = '"font-family: Verdana; font-size: 30pt; color: black;"')
+#end
+#if (!$polarh7 || !$polarh7.upd_timer)
+    #set($t2 = '-')
+    #set($t2c = '"font-family: Verdana; font-size: 30pt; color: red; font-weight: bold;"')
+#else
+    #set($t2 = $polarh7.upd_timer.toString())
+    #set($t2c = '"font-family: Verdana; font-size: 30pt; color: black;"')
+#end
+
+<span style="font-family: Verdana; font-size: 30pt; color: black;">T:<span style=$t1c>$t1</span><span style=$t2c>($t2)</span></span>&nbsp;
+#distancewheel($wbk '')&nbsp;
+#speedwheel($wbk '')&nbsp;
+#generic($wbk.upd_wheelcalorie 'C')&nbsp;
+#pulse($polarh7 'PL')|bottom=5px|background-color=#e0dddd|height=100px|line-height=15px|padding=15px 15px 15px 15px|right=|left=0px
+##generic($polarh7.upd_nbeatsr 'HRT')
+##rpm($wbk '')
+##watt($wbk '')
+##generic($wbk.upd_incline 'I')

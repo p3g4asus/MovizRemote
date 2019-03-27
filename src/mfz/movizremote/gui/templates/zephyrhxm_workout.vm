@@ -1,0 +1,13 @@
+#if ($first__)
+#parse("header_workout.vm")
+#end
+<tr><td class="title" colspan="2">$T.getAlias()</td></tr>
+#time($D '')
+#distance($D '')
+#generic($D.upd_stridesr 'Pas')
+#speed($D '')
+#generic($D.upd_nbeatsr 'NBat')
+#pulse($D '')
+#if ($last__)
+#parse("footer_workout.vm")
+#end

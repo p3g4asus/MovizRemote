@@ -1,0 +1,47 @@
+#macro(distance $D $str2)
+	#if (!$D || !$D.upd_distancer)
+		D:-
+	#else
+		D:$D.upd_distancer
+	#end
+#end
+
+#macro(generic $v $str)
+	#if (!$v)
+		$str:-
+	#else
+		$str:$v
+	#end
+#end
+
+#macro(pulse $D $str2)
+	#if (!$D || !$D.upd_pulse || !$D.upd_pulsemn)
+		HR:-(-)
+	#else
+		HR:$D.upd_pulse.toString()($D.upd_pulsemn.toString("%.0f"))
+	#end
+#end
+
+#macro(speed $D $str2)
+	#if (!$D || !$D.upd_speed || !$D.upd_speedmn)
+		V:-(-)
+	#else
+		V:$D.upd_speed.toString("%.1f")($D.upd_speedmn.toString("%.2f"))
+	#end
+#end
+
+#macro(rpm $D $str2)
+	#if (!$D || !$D.upd_rpm || !$D.upd_rpmmn)
+		R:-(-)
+	#else
+		R:$D.upd_rpm.toString()($D.upd_rpmmn.toString("%.1f"))
+	#end
+#end
+
+#macro(watt $D $str2)
+	#if (!$D || !$D.upd_wattmn || !$D.upd_watt)
+		W:-(-)
+	#else
+		W:$D.upd_watt.toString()($D.upd_wattmn.toString("%.1f"))
+	#end
+#end

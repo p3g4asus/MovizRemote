@@ -1,0 +1,7 @@
+<tr><td class="title" colspan="2">$T.getAlias()</td></tr>
+#time($D '')
+#distance($D '')
+#generic($D.upd_stridesr 'Pas')
+#speed($D '')
+#generic($D.upd_nbeatsr 'NBat')
+#pulse($D '')

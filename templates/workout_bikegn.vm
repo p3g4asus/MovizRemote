@@ -1,0 +1,26 @@
+#parse( "header_workout.vm" )
+#if (!$wbk)
+    #set($t1 = '-')
+    #set($t1c = '"error"')
+#else
+    #set($t1 = $wbk.upd_timer.toString())
+    #set($t1c = '"info2"')
+    #bluescmix($D $MIN $MOUT)
+#end
+#if (!$geonaute)
+    #set($t2 = '-')
+    #set($t2c = '"error"')
+#else
+    #set($t2 = $geonaute.upd_timer.toString())
+    #set($t2c = '"info"')
+#end
+<tr><td width="25%" class="info">T WBK (ZP):</td><td width="75%"><span class=$t1c>$t1</span>&nbsp;<span class=$t2c>($t2)</span></td></tr>
+#distance($wbk '')
+#generic($wbk.upd_calorie 'Cal')
+#generic($geonaute.upd_nbeatsr 'NBat')
+#pulse($geonaute 'GN')
+#speed($wbk '')
+#rpm($wbk '')
+#generic($wbk.upd_wheeln 'NWhl')
+#generic($wbk.upd_crankn 'NCrk')
+#include( "footer_workout.vm" )

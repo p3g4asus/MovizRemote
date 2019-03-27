@@ -1,0 +1,15 @@
+#if ($first__)
+#parse("header_workout.vm")
+#end
+<tr><td class="title" colspan="2">$T.getAlias()</td></tr>
+#bluescmix($D $MIN $MOUT)
+#time($D '')
+#distance($D '')
+#generic($D.upd_calorie 'Cal')
+#speed($D '')
+#rpm($D '')
+#generic($D.upd_wheeln 'NWhl')
+#generic($D.upd_crankn 'NCrk')
+#if ($last__)
+#parse("footer_workout.vm")
+#end

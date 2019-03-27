@@ -1,0 +1,17 @@
+#parse( "header_status.vm" )
+
+    #devicestatus($wbk ' WBK' 0)
+    #devicestatus($geonaute ' GN' 0)
+    #if ($wbk && $wbk.status_tcpstatus)
+        #set($ddev = $wbk)
+    #else
+        #set($ddev = $geonaute)
+    #end
+    #tcpstatus($ddev '')
+    #batterystatus($geonaute ' GN')
+    #batterystatus2($wbk ' WBK')
+    #sessionstatus($wbk ' WBK')
+    #sessionstatus($geonaute ' GN')
+    #userstatus($wbk '' 0 )
+    
+#include( "footer_status.vm" )

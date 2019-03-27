@@ -1,0 +1,127 @@
+#macro(distancewheel $D $str2)
+	#if (!$D || !$D.get("upd_wheeldistance"))
+		D:-
+	#else
+		D:$D.get("upd_wheeldistance")
+	#end
+#end
+
+#macro(distancecrank $D $str2)
+	#if (!$D || !$D.get("upd_crankdistance"))
+		D:-
+	#else
+		D:$D.get("upd_crankdistance")
+	#end
+#end
+
+#macro(distance $D $str2)
+	#if (!$D || !$D.get("upd_distancer"))
+		D:-
+	#else
+		D:$D.get("upd_distancer")
+	#end
+#end
+
+#macro(generic $v $str)
+	#if (!$v)
+		$str:-
+	#else
+		$str:$v
+	#end
+#end
+
+#macro(pulse $D $str2)
+	#if (!$D || !$D.get("upd_pulse") || !$D.get("upd_pulsemn"))
+		HR:-(-)
+	#else
+		HR:$D.get("upd_pulse").toString()($D.get("upd_pulsemn").toString("%.0f"))
+	#end
+#end
+
+#macro(speed0 $v $vmn $str2)
+	#if (!$v || !$vmn)
+		V:-(-)
+	#else
+		V:$v.toString("%.1f")($vmn.toString("%.2f"))
+	#end
+#end
+
+#macro(speedwheel $D $str2)
+	#if (!$D)
+		#speed0($D $D $str2)
+	#else
+		#speed0($D.get("upd_wheelspeedkmh") $D.get("upd_wheelspeedkmhmn") $str2)
+	#end
+#end
+#macro(speedcrank $D $str2)
+	#if (!$D)
+		#speed0($D $D $str2)
+	#else
+		#speed0($D.get("upd_crankspeedkmh") $D.get("upd_crankspeedkmhmn") $str2)
+	#end
+#end
+#macro(speed $D $str2)
+	#if (!$D)
+		#speed0($D $D $str2)
+	#else
+		#speed0($D.get("upd_speed") $D.get("upd_speedmn") $str2)
+	#end
+#end
+
+#macro(rpm0 $v $vmn $str2)
+	#if (!$v || !$vmn)
+		R:-(-)
+	#else
+		R:$v.toString()($vmn.toString("%.1f"))
+	#end
+#end
+
+#macro(rpm $D $str2)
+	#if (!$D)
+		#rpm0($D $D $str2)
+	#elseif ($D.get("upd_crankspeed") || $D.get("upd_crankspeedmn"))
+		#rpm0($D.get("upd_crankspeed") $D.get("upd_crankspeedmn") $str2)
+	#else
+		#rpm0($D.get("upd_rpm") $D.get("upd_rpmmn") $str2)
+	#end
+#end
+
+#macro(watt $D $str2)
+	#if (!$D || !$D.get("upd_wattmn") || !$D.get("upd_watt"))
+		W:-(-)
+	#else
+		W:$D.get("upd_watt").toString()($D.get("upd_wattmn").toString("%.1f"))
+	#end
+#end
+
+#macro(bluescmix $D $MIN $MOUT)
+    #if ($D && $D.get("upd_crankspeed"))
+        #set($cc = 1)
+    #else
+        #set($cc = 0)
+    #end
+    #if ($MIN)
+        #foreach ($mapEntry in $MIN.entrySet())
+            #if ( !$D[$mapEntry.key] || ($mapEntry.key=="upd_timer" && $D.get("upd_timer").c($mapEntry.value)<0) )
+                #set($D[$mapEntry.key] = $mapEntry.value)
+            #end
+        #end
+    #else
+        #set($MIN = {})
+    #end
+    #set($MOUT = $MIN)
+    #if ($cc==1)
+		#set($ss = "crank")
+    #else
+        #set($ss = "wheel")
+    #end
+	#set($MOUT["upd_${ss}speed"] = $D.get("upd_${ss}speed"))
+	#set($MOUT["upd_${ss}speedmn"] = $D.get("upd_${ss}speedmn"))
+	#set($MOUT["upd_${ss}distance"] = $D.get("upd_${ss}distance"))
+	#set($MOUT["upd_${ss}calorie"] = $D.get("upd_${ss}calorie"))
+	#set($MOUT["upd_${ss}speedkmh"] = $D.get("upd_${ss}speedkmh"))
+	#set($MOUT["upd_${ss}n"] = $D.get("upd_${ss}n"))
+    #set($MOUT["upd_timer"] = $D.get("upd_timer"))
+    ##set($MOUT["upd_senstype"] = $stype)
+    ##set($MOUT["dbg"] = $WSensorType.CRANK.ordinal())
+#end

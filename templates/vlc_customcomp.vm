@@ -1,0 +1,19 @@
+#if (!$bh || !$bh.upd_timer)
+    #set($t1 = '-')
+#else
+    #set($t1 = $bh.upd_timer.toString())
+#end
+#if (!$medisana || !$medisana.upd_timer)
+    #set($t2 = '-')
+#else
+    #set($t2 = $medisana.upd_timer.toString())
+#end
+T:$t1($t2)
+#distance($bh '')
+#generic($bh.upd_calorie 'C')
+#generic($medisana.upd_nbeatsr 'HRT')
+#pulse($medisana 'MD')
+#speed($bh '')
+#rpm($bh '')
+#watt($bh '')
+#generic($bh.upd_incline 'I')

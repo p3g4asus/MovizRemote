@@ -1,0 +1,26 @@
+#parse( "header_workout.vm" )
+#if (!$bh)
+    #set($t1 = '-')
+    #set($t1c = '"error"')
+#else
+    #set($t1 = $bh.upd_timer.toString())
+    #set($t1c = '"info2"')
+#end
+#if (!$zephyr)
+    #set($t2 = '-')
+    #set($t2c = '"error"')
+#else
+    #set($t2 = $zephyr.upd_timer.toString())
+    #set($t2c = '"info"')
+#end
+
+<tr><td width="25%" class="info">T BH (ZP):</td><td width="75%"><span class=$t1c>$t1</span>&nbsp;<span class=$t2c>($t2)</span></td></tr>
+#distance($bh '')
+#generic($bh.upd_calorie 'Cal')
+#generic($zephyr.upd_nbeatsr 'NBat')
+#pulse($zephyr 'ZP')
+#speed($bh '')
+#rpm($bh '')
+#watt($bh '')
+#generic($bh.upd_incline 'Inc')
+#include( "footer_workout.vm" )

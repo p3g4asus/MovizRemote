@@ -1,0 +1,15 @@
+#if ($first__)
+#parse("header_workout.vm")
+#end
+<tr><td class="title" colspan="2">$T.getAlias()</td></tr>
+#time($D '')
+#distance($D '')
+#generic($D.upd_calorie 'Cal')
+#generic($D.upd_incline 'Inc')
+#speed($D '')
+#pulse($D '')
+#rpm($D '')
+#watt($D '')
+#if ($last__)
+#parse("footer_workout.vm")
+#end

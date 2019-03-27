@@ -1,0 +1,27 @@
+<html>
+<head>
+<style>
+.error {font-family: Verdana; font-size: 10pt; color: red; font-weight: bold; } 
+.info {font-family: Verdana; font-size: 10pt; color: black; } 
+.success {font-family: Verdana; font-size: 10pt; color: green; } 
+.warning {font-family: Verdana; font-size: 10pt; color: #[[ #DF7401 ]]#; } 
+</style>
+</head>
+<body>
+<table cellpadding="5">  
+    #foreach( $m in $msgs )
+        #set($class=$m.getCl())
+        #if($class==$mc.WARNING)
+            #set($cl='"warning"')
+        #elseif($class==$mc.ERROR)
+            #set($cl='"error"')
+        #elseif($class==$mc.SUCCESS)
+            #set($cl='"success"')
+        #else
+            #set($cl='"info"')
+        #end
+        <tr><td class=$cl>$m.getDateString('HH:mm:ss.SSS')</td><td class=$cl>$class.toString()</td><td class=$cl>$m.getMsg()</td></tr>
+    #end
+</table>
+</body>
+</html>
