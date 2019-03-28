@@ -62,7 +62,6 @@ import mfz.movizremote.utils.Configuration;
 import mfz.movizremote.utils.Message;
 
 public class PRMainWindow {
-
     private static final String LIST_PANE_NAME = "ListRecordPane";
     private static final String LIST_DIALOG_NAME = "ListRecordDialog";
     private static final String PROGRESS_CONNECT = "connect";
@@ -77,6 +76,7 @@ public class PRMainWindow {
     private Timer keepAliveTimer = null;
     private Map<Long, DeviceHolder> sessionMap = new HashMap<Long, DeviceHolder>();
     private Map<DeviceHolder, DeviceUpdate> updateMap = new HashMap<DeviceHolder, DeviceUpdate>();
+    private Map<Long, Long> updateTimeMap = new HashMap<Long, Long>();
     private Map<DeviceHolder, StatusHolder> statusMap = new HashMap<DeviceHolder, StatusHolder>();
     private int keepaliveT = (int) (ComunicationConstants.KEEPALIVE_PERIOD / 1000);
 
@@ -135,6 +135,7 @@ public class PRMainWindow {
             sessionMap.clear();
             statusMap.clear();
             updateMap.clear();
+            updateTimeMap.clear();
             showProgressBar(PROGRESS_CONNECT, true, new Message(
                     Message.MessageClass.ERROR, sw.toString()));
             stopKeepAliveTimer();
@@ -192,28 +193,39 @@ public class PRMainWindow {
         @Override
         public void onWorkout(DeviceUpdate d) {
             // TODO Auto-generated method stub
+            long now = System.currentTimeMillis();
             long sid = d.getSessionId();
             if (sessionMap.containsKey(sid)) {
                 // System.out.println(d.getClass().getSimpleName()+" "+sid);
                 final JScrollBar sb = workoutSP.getVerticalScrollBar();
                 final int statusSB = sb != null ? sb.getValue() : 0;
-                updateMap.put(sessionMap.get(sid), d);
-                workoutEP.updateValues(new SheetUpdate(updateMap,"upd"));
-                updateFormatters(updateMap, "upd");
-                if (sb != null)
-                    try {
-                        SwingUtilities.invokeAndWait(new Runnable() {
-                            public void run() {
-                                sb.setValue(statusSB);
-                            }
-                        });
-                    } catch (InvocationTargetException e) {
-                        // TODO Auto-generated catch block
-                        e.printStackTrace();
-                    } catch (InterruptedException e) {
-                        // TODO Auto-generated catch block
-                        e.printStackTrace();
-                    }
+                final DeviceHolder dh = sessionMap.get(sid);
+                long dhid = dh.getId(),oldtime;
+                Long _oldtime = updateTimeMap.get(dhid);
+                if (_oldtime==null)
+                    oldtime = 0;
+                else
+                    oldtime = _oldtime;
+                updateMap.put(dh, d);
+                if (now-oldtime>workoutFilter) {
+                    updateTimeMap.put(dhid, now);
+                    workoutEP.updateValues(new SheetUpdate(updateMap,"upd"));
+                    updateFormatters(updateMap, "upd");
+                    if (sb != null)
+                        try {
+                            SwingUtilities.invokeAndWait(new Runnable() {
+                                public void run() {
+                                    sb.setValue(statusSB);
+                                }
+                            });
+                        } catch (InvocationTargetException e) {
+                            // TODO Auto-generated catch block
+                            e.printStackTrace();
+                        } catch (InterruptedException e) {
+                            // TODO Auto-generated catch block
+                            e.printStackTrace();
+                        }
+                }
             }
             // chartPNL.updateValues(d);
             showProgressBar(PROGRESS_CONNECT, false, null);
@@ -373,6 +385,7 @@ public class PRMainWindow {
     private JCheckBoxMenuItem viewStatusMI, alwaysOnTopMI;
     // CHT private JCheckBoxMenuItem viewGraphMI;
     private MarqueeFormatter[] formatters = null;
+    private int workoutFilter = 800;
 
     /*
      * CHT private void openChartDialog(boolean close) { if (chartDLG==null &&
@@ -497,6 +510,8 @@ public class PRMainWindow {
         statusEP.getPane().addHyperlinkListener(statusHLL);
         try {
             c.load();
+            workoutFilter  = c.getInt("workoutfilter",0,null);
+            System.out.println("WOF = "+workoutFilter);
             String ids = c.get("connectors.id");
             if (ids != null && !ids.isEmpty()) {
                 String[] ida = ids.trim().split(" ");

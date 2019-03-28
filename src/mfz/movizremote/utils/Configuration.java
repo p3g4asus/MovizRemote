@@ -123,6 +123,7 @@ public class Configuration {
             else
                 return rv;
         } catch (Exception e) {
+            e.printStackTrace();
             return getIntDefault(prop);
         }
     }
