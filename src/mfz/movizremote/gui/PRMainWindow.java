@@ -208,7 +208,6 @@ public class PRMainWindow {
                     oldtime = _oldtime;
                 updateMap.put(dh, d);
                 if (now-oldtime>workoutFilter) {
-                    updateTimeMap.put(dhid, now);
                     workoutEP.updateValues(new SheetUpdate(updateMap,"upd"));
                     updateFormatters(updateMap, "upd");
                     if (sb != null)
@@ -225,7 +224,10 @@ public class PRMainWindow {
                             // TODO Auto-generated catch block
                             e.printStackTrace();
                         }
+                    updateTimeMap.put(dhid, System.currentTimeMillis());
                 }
+                else
+                    return;
             }
             // chartPNL.updateValues(d);
             showProgressBar(PROGRESS_CONNECT, false, null);
