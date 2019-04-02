@@ -1,11 +1,14 @@
 package mfz.movizremote.introspection;
 
 import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.Reader;
+import java.io.UnsupportedEncodingException;
 
-import org.apache.commons.collections.ExtendedProperties;
 import org.apache.velocity.exception.ResourceNotFoundException;
 import org.apache.velocity.runtime.resource.Resource;
 import org.apache.velocity.runtime.resource.loader.ResourceLoader;
+import org.apache.velocity.util.ExtProperties;
 
 public class MyClasspathResourceLoader extends ResourceLoader {
 
@@ -13,7 +16,7 @@ public class MyClasspathResourceLoader extends ResourceLoader {
     private Class<?> loader = MyClasspathResourceLoader.class;
 
     @Override
-    public void init(ExtendedProperties configuration) {
+    public void init(ExtProperties configuration) {
         String rel = configuration.getString("relative");
         if (rel != null) {
             while (rel.startsWith("/")) {
@@ -34,8 +37,7 @@ public class MyClasspathResourceLoader extends ResourceLoader {
     }
 
     @Override
-    public InputStream getResourceStream(String source)
-            throws ResourceNotFoundException {
+    public Reader getResourceReader(String source, String encoding) throws ResourceNotFoundException {
         InputStream is = loader.getClassLoader().getResourceAsStream(
                 pathrelative + source);
         if (is == null) {
@@ -48,7 +50,13 @@ public class MyClasspathResourceLoader extends ResourceLoader {
                 throw new ResourceNotFoundException(msg);
             }
         }
-        return is;
+        try {
+            return new InputStreamReader(is,encoding);
+        } catch (UnsupportedEncodingException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+            throw new ResourceNotFoundException("Charset not supported");
+        }
     }
 
     @Override

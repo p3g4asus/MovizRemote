@@ -20,6 +20,7 @@ public class TCPConnector {
 
     private ReadThread readTH = null;
     private WriteThread writeTH = null;
+    private String myName = "";
 
     private enum Status {
         DISCONNECTED, CONNECTED, STOPPED
@@ -93,7 +94,7 @@ public class TCPConnector {
         public WriteThread(SocketChannel sock, long wtimeout) {
             s = sock;
             timeout = wtimeout;
-            setName("WT " + TCPConnector.this.getClass().getSimpleName());
+            setName("WT " + TCPConnector.this.getClass().getSimpleName()+" "+myName);
         }
 
         public void schedule(ByteBuffer b) {
@@ -164,7 +165,7 @@ public class TCPConnector {
             s = h;
             listen = cl;
             timeout = readtimeoutms;
-            setName("RT " + TCPConnector.this.getClass().getSimpleName());
+            setName("RT " + TCPConnector.this.getClass().getSimpleName()+" "+myName);
         }
 
         public void run() {
@@ -292,8 +293,9 @@ public class TCPConnector {
 
     }
 
-    public TCPConnector(ConnectionListener l) {
+    public TCPConnector(ConnectionListener l,String name) {
         connectionListener = l;
+        myName = name;
     }
 
     public ConnectionListener getConnectionListener() {

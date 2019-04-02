@@ -507,7 +507,7 @@ public class PRMainWindow {
     public PRMainWindow(Configuration c) {
         initialize();
         conf = c;
-        mainConnector = new TCPConnector(connectionListener);
+        mainConnector = new TCPConnector(connectionListener,"main");
         commandManager = new CommandManager(commandListener);
         statusEP.getPane().addHyperlinkListener(statusHLL);
         try {
@@ -524,7 +524,7 @@ public class PRMainWindow {
                 for (String id : ida) {
                     if (id.length() > 0) {
                         try {
-                            connectors[i] = new TCPConnector(null);
+                            connectors[i] = new TCPConnector(null,id);
                             if (connectors[i].connect(id, c)) {
                                 formatters[i] = new MarqueeFormatter();
                                 formatters[i].load(id, c);

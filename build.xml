@@ -1,6 +1,7 @@
 <project>
-	<property name="pth.velocity" value="velocity-1.7-dep.jar"/>
-	<property name="pth.velocitytools" value="velocity-tools-2.0.jar"/>
+	<property name="pth.velocity" value="velocity-engine-core-2.1.jar"/>
+	<property name="pth.apachecommons3" value="commons-lang3-3.8.1.jar"/>
+	<property name="pth.log1" value="slf4j-api-1.7.26.jar"/>
 	<property name="pth.jfreechart" value="jfreechart-1.0.19.jar"/>
 	<property name="pth.jcommons" value="jcommon-1.0.23.jar"/>
 	<property name="pth.jsplitbutton" value="JSplitButton_1.2.jar"/>
@@ -13,7 +14,8 @@
         <javac includeantruntime="false" debug="on" srcdir="src" destdir="build/classes" fork="true">
         	   <classpath>
         	        <pathelement path="../jars/${pth.velocity}"/>
-        	        <pathelement path="../jars/${pth.velocitytools}"/>
+        	        <pathelement path="../jars/${pth.apachecommons3}"/>
+        	        <pathelement path="../jars/${pth.log1}"/>
         	   		<pathelement path="../jars/${pth.jfreechart}"/>
         	   		<pathelement path="../jars/${pth.jcommons}"/>
         	   		<pathelement path="../jars/${pth.jsplitbutton}"/>
@@ -29,7 +31,7 @@
         <jar destfile="build/jar/movizremote.jar">
             <manifest>
                 <attribute name="Main-Class" value="mfz.movizremote.gui.PRMainWindow"/>
-            	<attribute name="Class-Path" value=". ./libs ${pth.velocity} ${pth.velocitytools} ${pth.jfreechart} ${pth.jcommons} ${pth.jsplitbutton} ${pth.movizcom}"/>
+            	<attribute name="Class-Path" value=". ./libs ${pth.apachecommons3} ${pth.velocity} ${pth.jfreechart} ${pth.jcommons} ${pth.jsplitbutton} ${pth.movizcom} ${pth.log1}"/>
             </manifest>
         	<fileset dir="build/classes" />
         	<fileset dir="src"/>

@@ -36,10 +36,10 @@ public class MessagePane extends JEditorPane {
         setEditable(false);
         setDoubleBuffered(true);
         try {
-            ri.setProperty("runtime.introspector.uberspect",
+            ri.setProperty("introspector.uberspect.class",
                     "com.moviz.lib.velocity.PublicFieldUberspect");
-            ri.setProperty("resource.loader", "class");
-            ri.setProperty("class.resource.loader.class",
+            ri.setProperty("resource.loaders", "class");
+            ri.setProperty("resource.loader.class.class",
                     "org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader");
             ri.init();
             template = JavaVelocitySheet.loadTemplate(ri, "message",

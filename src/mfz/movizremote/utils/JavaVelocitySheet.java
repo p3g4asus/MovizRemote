@@ -43,8 +43,8 @@ public abstract class JavaVelocitySheet extends VelocitySheet {
 
     @Override
     protected void initInternalResourceLoader(RuntimeInstance ri) {
-        ri.setProperty("resource.loader", "class");
-        ri.setProperty("class.resource.loader.class",
+        ri.setProperty("resource.loaders", "class");
+        ri.setProperty("resource.loader.class.class",
         "mfz.movizremote.introspection.MyClasspathResourceLoader");
         ri.setProperty("class.resource.loader.relative", TEMPLATE_DIR);
         
